@@ -5,50 +5,31 @@ const lastName = document.getElementById("lastName");
 const email = document.getElementById("email");
 const color = document.getElementById("color");
 const summary = document.getElementById("summary");
-const notification = document.getElementById("notification");
 
-// Populate fields if data exists in LocalStorage
-window.onload = function () {
-  if (localStorage.getItem("userData")) {
-    const savedData = JSON.parse(localStorage.getItem("userData"));
-    firstName.value = savedData.firstName;
-    lastName.value = savedData.lastName;
-    email.value = savedData.email;
-    color.value = savedData.color;
-    displaySummary(savedData); // Display the summary on page load
-  }
-};
-
-// Listen for form submission
 form.addEventListener("submit", function (e) {
-  e.preventDefault(); // Prevent the page from reloading
+  e.preventDefault(); // Prevent page reload
 
-  // Get values from the form
-  const userFirstName = firstName.value.trim();
-  const userLastName = lastName.value.trim();
-  const userEmail = email.value.trim();
-  const userColor = color.value;
-
-  // Save the data to LocalStorage
+  // Collect data
   const userData = {
-    firstName: userFirstName,
-    lastName: userLastName,
-    email: userEmail,
-    color: userColor,
+    firstName: firstName.value.trim(),
+    lastName: lastName.value.trim(),
+    email: email.value.trim(),
+    color: color.value,
   };
-  localStorage.setItem("userData", JSON.stringify(userData));
 
-  // Display the summary
-  displaySummary(userData);
-
-  // Show the notification
-  showNotification();
-
-  // Clear the input fields
-  form.reset();
+  // Save to Firebase
+  firebase.database().ref("submissions").push(userData)
+    .then(() => {
+      alert("Data saved successfully!");
+      displaySummary(userData);
+      form.reset();
+    })
+    .catch((error) => {
+      console.error("Error saving data:", error);
+    });
 });
 
-// Function to display summary
+// Display Summary
 function displaySummary(data) {
   summary.innerHTML = `
     <strong>Summary:</strong> <br />
@@ -56,19 +37,4 @@ function displaySummary(data) {
     Email: ${data.email} <br />
     Favorite Color: <span style="color:${data.color}">${data.color}</span>
   `;
-}
-
-// Function to show the notification
-function showNotification() {
-  notification.classList.remove("hidden");
-  setTimeout(() => {
-    notification.classList.add("hidden");
-  }, 3000); // Hide after 3 seconds
-}
-
-// Clear the form data and LocalStorage
-function clearData() {
-  localStorage.removeItem("userData");
-  summary.innerHTML = "";
-  form.reset();
 }
