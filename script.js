@@ -1,14 +1,22 @@
-function changeMessage() {
-  const messageElement = document.getElementById("message");
-  const messages = [
-    "You clicked the button!",
-    "Hello, GitHub User!",
-    "Keep exploring JavaScript!",
-    "Isn't this fun? 😎",
-    "You can make it interactive!"
-  ];
-  
-  // Select a random message from the array
-  const randomMessage = messages[Math.floor(Math.random() * messages.length)];
-  messageElement.textContent = randomMessage;
-}
+// Get references to the form and input
+const form = document.getElementById("nameForm");
+const nameInput = document.getElementById("nameInput");
+const messageElement = document.getElementById("message");
+
+// Listen for form submission
+form.addEventListener("submit", function (e) {
+  e.preventDefault(); // Prevent the page from reloading
+
+  // Get the user's name from the input field
+  const name = nameInput.value.trim();
+
+  // Display a greeting message
+  if (name) {
+    messageElement.textContent = `Hello, ${name}! Welcome to my webpage!`;
+  } else {
+    messageElement.textContent = "Please enter a valid name.";
+  }
+
+  // Clear the input field
+  nameInput.value = "";
+});
