@@ -5,6 +5,7 @@ const lastName = document.getElementById("lastName");
 const email = document.getElementById("email");
 const color = document.getElementById("color");
 const summary = document.getElementById("summary");
+const notification = document.getElementById("notification");
 
 // Populate fields if data exists in LocalStorage
 window.onload = function () {
@@ -40,6 +41,9 @@ form.addEventListener("submit", function (e) {
   // Display the summary
   displaySummary(userData);
 
+  // Show the notification
+  showNotification();
+
   // Clear the input fields
   form.reset();
 });
@@ -52,4 +56,19 @@ function displaySummary(data) {
     Email: ${data.email} <br />
     Favorite Color: <span style="color:${data.color}">${data.color}</span>
   `;
+}
+
+// Function to show the notification
+function showNotification() {
+  notification.classList.remove("hidden");
+  setTimeout(() => {
+    notification.classList.add("hidden");
+  }, 3000); // Hide after 3 seconds
+}
+
+// Clear the form data and LocalStorage
+function clearData() {
+  localStorage.removeItem("userData");
+  summary.innerHTML = "";
+  form.reset();
 }
