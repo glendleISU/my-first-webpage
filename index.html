@@ -5,12 +5,17 @@
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
-    <h1 id="message">Welcome! Enter your name:</h1>
+    <h1>Enter Your Details:</h1>
 
-    <form id="nameForm">
-      <input type="text" id="nameInput" placeholder="Your name..." required />
+    <form id="infoForm">
+      <input type="text" id="firstName" placeholder="First Name" required /><br />
+      <input type="text" id="lastName" placeholder="Last Name" required /><br />
+      <input type="email" id="email" placeholder="Email Address" required /><br />
+      <input type="color" id="color" value="#ff0000" /><label for="color">Favorite Color</label><br />
       <button type="submit">Submit</button>
     </form>
+
+    <h2 id="summary"></h2>
 
     <script src="script.js"></script>
   </body>
